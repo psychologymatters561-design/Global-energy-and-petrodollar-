@@ -798,6 +798,9 @@ body{
   }
   .footer-meta{text-align:left;}
 
+  /* Hero title scales smoothly from tablet down */
+  .hero-title{font-size:clamp(42px,8vw,80px);}
+
   .chapter-num{font-size:44px;}
   .section-title{font-size:24px;}
   .section-intro{font-size:15px;}
@@ -817,6 +820,14 @@ body{
   .crisis-banner{flex-direction:column;gap:12px;align-items:flex-start;}
   .blockquote{font-size:14px;padding:14px 18px;}
   .visual-divider{font-size:9px;}
+
+  /* Tables need min-width so the card's overflow-x:auto kicks in */
+  .data-table{min-width:440px;}
+
+  /* Tone down letter-spacing on tablet to prevent text overflow */
+  .classified-stamp{letter-spacing:3px;}
+  .hero-eyebrow{letter-spacing:2px;}
+  .card-title{letter-spacing:2px;}
 }
 
 /* ── Mobile (≤ 480px): phones ── */
@@ -824,6 +835,9 @@ body{
   #hero{padding:40px 16px 28px;}
   .section{padding:36px 16px;}
   #footer{padding:24px 16px;}
+
+  /* Hero title: viewport-relative so it never clips on small phones */
+  .hero-title{font-size:clamp(36px,10.5vw,50px);}
 
   .hero-stats{grid-template-columns:1fr;}
   .hero-meta{flex-direction:column;gap:10px;}
@@ -843,6 +857,31 @@ body{
   .compare-grid{grid-template-columns:1fr;}
   .win-lose-grid{grid-template-columns:1fr;}
   .forecast-grid{grid-template-columns:1fr;}
+
+  /* Letter-spacing: cut right down so long strings don't overflow phones */
+  .classified-stamp{letter-spacing:1px;font-size:9px;}
+  .hero-eyebrow{letter-spacing:1px;font-size:10px;}
+  .stat-label{letter-spacing:1px;}
+  .card-title{letter-spacing:1px;}
+  .section-era{letter-spacing:1px;}
+  .intel-label{letter-spacing:2px;}
+  .visual-divider{letter-spacing:2px;}
+  .np-subtitle{letter-spacing:2px;}
+  .data-table th{letter-spacing:1px;}
+  .choke-name{letter-spacing:2px;}
+  .chart-label{letter-spacing:2px;}
+
+  /* Tables: set a minimum so the card's overflow-x:auto triggers scrolling */
+  .data-table{min-width:440px;}
+
+  /* Metric rows: let long values like "$30 (extreme backwardation)" wrap */
+  .metric-row{flex-wrap:wrap;row-gap:2px;}
+  .metric-val{font-size:11px;}
+
+  /* Flow nodes: tighter on phones */
+  .flow-node{padding:10px 12px;}
+  .flow-node-sub{font-size:9px;}
+  .flow-node-icon{font-size:18px;margin-bottom:4px;}
 
   .topbar-brand{font-size:10px;letter-spacing:2px;}
   .ntog-label{display:none;}
@@ -3124,7 +3163,7 @@ body{
       </div>
     </div>
     <div>
-      <div class="forecast-grid" style="grid-template-columns:1fr 1fr;margin-bottom:24px;">
+      <div class="forecast-grid" style="margin-bottom:24px;">
         <div class="forecast-card" data-n="I" style="border-color:var(--blood);background:rgba(140,28,19,0.1);">
           <div class="forecast-title" style="color:var(--blood2)">Overexposed Nations</div>
           <div class="wl-item" style="font-size:11px;font-family:'IBM Plex Mono',monospace;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);">🇮🇳 India — 50% Hormuz dependency, 9.5 days SPR. Refinining arbitrage profitability now under pressure.</div>
@@ -3156,7 +3195,7 @@ body{
 
   <div class="visual-divider">FINAL INTELLIGENCE SUMMARY</div>
 
-  <div class="compare-grid" style="grid-template-columns:repeat(3,1fr);">
+  <div class="compare-grid">
     <div class="compare-cell">
       <div class="compare-cell-label">Years of documented oil power</div>
       <div class="compare-cell-val">167</div>
