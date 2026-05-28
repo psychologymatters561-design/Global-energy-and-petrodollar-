@@ -30,7 +30,7 @@
 
 *{margin:0;padding:0;box-sizing:border-box;}
 
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
 
 body{
   background:var(--void);
@@ -51,6 +51,7 @@ body{
   margin-left:0;
   margin-top:48px;
   min-height:100vh;
+  overflow-x:hidden;
 }
 
 /* HERO */
@@ -739,6 +740,7 @@ body{
   border-top:1px solid var(--border);
   display:flex;justify-content:space-between;align-items:center;
   background:var(--paper);
+  overflow-x:hidden;
 }
 
 .footer-brand{
@@ -834,6 +836,13 @@ body{
   .classified-stamp{letter-spacing:3px;}
   .hero-eyebrow{letter-spacing:2px;}
   .card-title{letter-spacing:2px;}
+
+  /* Footer brand: shrink so it doesn't overflow the stacked footer */
+  .footer-brand{font-size:12px;letter-spacing:2px;}
+
+  /* Flow nodes: clip any label that still bleeds out */
+  .flow-node{overflow:hidden;}
+  .flow-node-label{letter-spacing:0;}
 }
 
 /* ── Mobile (≤ 480px): phones ── */
@@ -912,8 +921,18 @@ body{
   /* Long text: allow break anywhere so nothing escapes the column */
   .wl-item,.timeline-text,.intel-text,.prose p{word-break:break-word;overflow-wrap:break-word;}
 
-  /* Prod-bar country label can wrap instead of clipping */
-  .prod-country{width:80px;font-size:10px;}
+  /* Footer brand: minimum size on phones */
+  .footer-brand{font-size:10px;letter-spacing:1px;}
+
+  /* Hero eyebrow: zero letter-spacing so the long string fits */
+  .hero-eyebrow{letter-spacing:0;}
+
+  /* Flow node labels: no extra letter-spacing on phones */
+  .flow-node-label{letter-spacing:0;font-size:9px;}
+
+  /* Prod-bar: auto widths so the row stays inside the card */
+  .prod-country{width:auto;min-width:55px;font-size:10px;}
+  .prod-val{width:auto;min-width:40px;flex-shrink:1;}
 }
 
 /* ANIMATIONS */
