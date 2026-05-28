@@ -492,7 +492,7 @@ body{
   margin-bottom:16px;
 }
 
-.chart-wrap canvas{max-height:320px;}
+.chart-wrap canvas{max-height:320px;max-width:100%;}
 
 /* FLOW DIAGRAM */
 .flow{
@@ -769,6 +769,12 @@ body{
   #footer{padding:40px calc((100vw - 1280px) / 2);}
 }
 
+/* Sections must not leak content horizontally */
+.section{overflow-x:hidden;}
+
+/* Nav footer: single child (price) sits centred */
+.np-footer{justify-content:center;}
+
 /* ── Mid-screen (≤ 1100px): tablet landscape, narrow desktop ── */
 @media(max-width:1100px){
   #nav-panel{width:min(400px,100vw);}
@@ -902,6 +908,12 @@ body{
 
   .highlight{font-size:13px;padding:14px 16px;}
   .intel-box{padding:16px 18px;}
+
+  /* Long text: allow break anywhere so nothing escapes the column */
+  .wl-item,.timeline-text,.intel-text,.prose p{word-break:break-word;overflow-wrap:break-word;}
+
+  /* Prod-bar country label can wrap instead of clipping */
+  .prod-country{width:80px;font-size:10px;}
 }
 
 /* ANIMATIONS */
@@ -1762,10 +1774,6 @@ body{
 
   <!-- Panel Footer -->
   <div class="np-footer">
-    <div class="np-footer-live">
-      <div class="np-live-dot"></div>
-      <div class="np-footer-text">LIVE DATA · MAY 18, 2026</div>
-    </div>
     <div class="np-footer-price">BRENT $109.47</div>
   </div>
 
