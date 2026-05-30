@@ -783,7 +783,10 @@ body{
 
   .hero-stats{grid-template-columns:1fr 1fr;}
 
-  .content-grid,.two-col{grid-template-columns:1fr;}
+  /* All content-grid variants — including .wide and .full — collapse to single column.
+     Explicit overrides are required because .content-grid.wide has higher specificity
+     than the generic .content-grid rule and would otherwise win. */
+  .content-grid,.content-grid.wide,.content-grid.full,.two-col{grid-template-columns:1fr;}
   .content-grid.three{grid-template-columns:1fr 1fr;}
   .forecast-grid{grid-template-columns:1fr 1fr;}
   .win-lose-grid{grid-template-columns:1fr;}
@@ -860,7 +863,7 @@ body{
   .hero-subtitle{font-size:14px;}
 
   .chapter-num{font-size:28px;}
-  .section-header{gap:10px;}
+  .section-header{gap:10px;margin-bottom:28px;}
   .section-title{font-size:18px;}
   .section-intro{font-size:13px;}
   .section-divider{margin:10px 0;}
@@ -917,6 +920,11 @@ body{
 
   .highlight{font-size:13px;padding:14px 16px;}
   .intel-box{padding:16px 18px;}
+
+  /* Charts: shorter max-height so stacked charts don't dominate on small phones */
+  .chart-wrap canvas{max-height:220px;}
+  /* Stacked chart/card spacing when content-grid collapses */
+  .chart-wrap{margin-bottom:16px;}
 
   /* Long text: allow break anywhere so nothing escapes the column */
   .wl-item,.timeline-text,.intel-text,.prose p{word-break:break-word;overflow-wrap:break-word;}
