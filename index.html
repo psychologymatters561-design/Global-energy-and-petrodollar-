@@ -766,11 +766,17 @@ body{
    Narrow   ≤375px  : minimum viable layout for small handsets
 ═══════════════════════════════════════════════════════════════ */
 
-/* Tables & charts scroll inside their containers instead of overflowing */
-.card,.chart-wrap{overflow-x:auto;}
+/* Tables scroll inside cards; charts must fit without horizontal scroll */
+.card{overflow-x:auto;}
+.chart-wrap{overflow-x:hidden;}
 
 /* Sections clip any stray overflow from child elements */
 .section{overflow-x:hidden;}
+
+/* Global safety net: no element wider than its scroll container on mobile */
+@media(max-width:768px){
+  img,canvas,video,svg,iframe{max-width:100%;}
+}
 
 /* Nav panel footer: price label centered when it's the only child */
 .np-footer{justify-content:center;}
@@ -841,6 +847,11 @@ body{
   .footer-brand    { font-size:12px; letter-spacing:2px; }
   .flow-node       { overflow:hidden; }
   .flow-node-label { letter-spacing:0; }
+
+  /* Chart labels wrap instead of overflowing */
+  .chart-label { white-space:normal; overflow-wrap:break-word; word-break:break-word; }
+  /* Canvases are constrained to their container */
+  .chart-wrap canvas { max-width:100%; height:auto; }
 }
 
 /* ── Mobile phones (≤ 480px) ───────────────────────────────────
@@ -891,9 +902,11 @@ body{
   .card-title     { font-size:11px; letter-spacing:1px; }
 
   /* ── Charts ── */
-  .chart-wrap           { padding:14px; margin-bottom:14px; }
-  .chart-wrap canvas    { max-height:180px; max-width:100%; }
-  .chart-label          { font-size:9px; letter-spacing:1px; margin-bottom:10px; }
+  .chart-wrap        { padding:14px; margin-bottom:14px; overflow-x:hidden; }
+  /* !important beats Chart.js inline style="width:Xpx" */
+  .chart-wrap canvas { max-width:100% !important; max-height:180px; height:auto; }
+  .chart-label       { font-size:9px; letter-spacing:0; margin-bottom:10px;
+                       white-space:normal; overflow-wrap:break-word; word-break:break-word; }
 
   /* ── Tables (horizontal scroll inside .card) ── */
   .data-table      { min-width:360px; }
@@ -963,10 +976,20 @@ body{
   .footer-brand{ font-size:10px; letter-spacing:1px; }
   .footer-meta { font-size:9px; }
 
-  /* ── Word-wrap safety net ── */
-  .wl-item,.timeline-text,.intel-text,.prose p{
+  /* ── Word-wrap safety net: all text that could run wide ── */
+  .wl-item,.timeline-text,.intel-text,.prose p,
+  .card-title,.section-title,.chart-label,.highlight,
+  .blockquote,.np-item-title,.np-item-era,.footer-meta{
     word-break:break-word; overflow-wrap:break-word;
   }
+
+  /* ── Hard cap: nothing wider than the viewport on phones ── */
+  * { max-width:100%; }
+  /* Exemptions for elements that must be wider (scroll containers, animations) */
+  .data-table { max-width:none; min-width:360px; }
+  .ticker     { max-width:none; }
+  #nav-panel  { max-width:100vw; }
+  canvas      { max-width:100% !important; }
 }
 
 /* ── Very narrow phones (≤ 375px) ── */
@@ -975,11 +998,19 @@ body{
   .section{ padding:24px 12px; }
   #footer { padding:16px 12px; }
 
-  .hero-title{ font-size:clamp(28px,12vw,40px); }
+  .hero-title    { font-size:clamp(26px,12vw,38px); }
+  .section-title { font-size:14px; }
+  .chart-label   { font-size:8px; }
 
-  /* On the narrowest phones, stat boxes and chokepoints go single-column */
-  body .hero-stats     { grid-template-columns:1fr; }
-  body .chokepoint-grid{ grid-template-columns:1fr; }
+  /* Collapse to 1-column on the narrowest phones */
+  body .hero-stats      { grid-template-columns:1fr; }
+  body .chokepoint-grid { grid-template-columns:1fr; }
+  body .compare-grid    { grid-template-columns:1fr; }
+
+  /* Zero letter-spacing for all labelling text to maximise readable width */
+  .classified-stamp,.hero-eyebrow,.stat-label,
+  .card-title,.section-era,.chart-label,
+  .visual-divider,.choke-name,.tick-item { letter-spacing:0; }
 }
 
 /* ANIMATIONS */
