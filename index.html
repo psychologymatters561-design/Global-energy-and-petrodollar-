@@ -757,190 +757,229 @@ body{
   text-align:right;
 }
 
-/* ═══════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
    RESPONSIVE LAYOUT SYSTEM
-═══════════════════════════════════════ */
+   Desktop  ≥1101px : multi-column, spacious, full typography
+   Tablet   ≤1100px : collapse wide/three grids, adapt spacing
+   Phablet  ≤768px  : single-column, compact
+   Phone    ≤480px  : phone-first, readable, no overflow
+   Narrow   ≤375px  : minimum viable layout for small handsets
+═══════════════════════════════════════════════════════════════ */
 
-/* Cards & chart containers scroll horizontally rather than overflow */
+/* Tables & charts scroll inside their containers instead of overflowing */
 .card,.chart-wrap{overflow-x:auto;}
 
-/* ── Wide Desktop (≥ 1440px): constrain content to readable width ── */
-@media(min-width:1440px){
-  #hero{padding:80px calc((100vw - 1280px) / 2) 60px;}
-  .section{padding:80px calc((100vw - 1280px) / 2);}
-  #footer{padding:40px calc((100vw - 1280px) / 2);}
-}
-
-/* Sections must not leak content horizontally */
+/* Sections clip any stray overflow from child elements */
 .section{overflow-x:hidden;}
 
-/* Nav footer: single child (price) sits centred */
+/* Nav panel footer: price label centered when it's the only child */
 .np-footer{justify-content:center;}
 
-/* ── Mid-screen (≤ 1100px): tablet landscape, narrow desktop ── */
+/* ── Wide Desktop (≥ 1440px): cap line-length at 1280px ── */
+@media(min-width:1440px){
+  #hero   { padding:80px calc((100vw - 1280px)/2) 60px; }
+  .section{ padding:80px calc((100vw - 1280px)/2); }
+  #footer { padding:40px calc((100vw - 1280px)/2); }
+}
+
+/* ── Tablet landscape / Narrow desktop (≤ 1100px) ──────────────
+   Use "body ." prefix (specificity 0,_,1) to guarantee these
+   rules beat base rules like ".content-grid.wide" (0,2,0).
+─────────────────────────────────────────────────────────────── */
 @media(max-width:1100px){
-  #nav-panel{width:min(400px,100vw);}
+  #nav-panel{ width:min(400px,100vw); }
 
-  .hero-stats{grid-template-columns:1fr 1fr;}
+  .hero-stats{ grid-template-columns:1fr 1fr; }
 
-  /* All content-grid variants — including .wide and .full — collapse to single column.
-     Explicit overrides are required because .content-grid.wide has higher specificity
-     than the generic .content-grid rule and would otherwise win. */
-  .content-grid,.content-grid.wide,.content-grid.full,.two-col{grid-template-columns:1fr;}
-  .content-grid.three{grid-template-columns:1fr 1fr;}
-  .forecast-grid{grid-template-columns:1fr 1fr;}
-  .win-lose-grid{grid-template-columns:1fr;}
-  .chokepoint-grid{grid-template-columns:1fr 1fr 1fr;}
+  /* All grid variants collapse to single column */
+  body .content-grid,
+  body .content-grid.wide,
+  body .content-grid.full { grid-template-columns:1fr; }
+  body .content-grid.three{ grid-template-columns:1fr 1fr; }
+  body .two-col            { grid-template-columns:1fr; }
 
-  .flow{flex-wrap:wrap;gap:10px;justify-content:center;}
-  .flow-arrow{display:none;}
-  .flow-node{flex:0 0 auto;min-width:130px;max-width:180px;}
+  .forecast-grid  { grid-template-columns:1fr 1fr; }
+  .win-lose-grid  { grid-template-columns:1fr; }
+  .chokepoint-grid{ grid-template-columns:repeat(3,1fr); }
+
+  .flow           { flex-wrap:wrap; gap:10px; justify-content:center; }
+  .flow-arrow     { display:none; }
+  .flow-node      { flex:0 0 auto; min-width:130px; max-width:180px; }
 }
 
-/* ── Tablet (≤ 768px): tablet portrait, large phones ── */
+/* ── Tablet portrait / Large phones (≤ 768px) ── */
 @media(max-width:768px){
-  #hero{padding:56px 28px 40px;}
-  .section{padding:48px 28px;}
-  #footer{
-    padding:28px 28px;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:16px;
-  }
-  .footer-meta{text-align:left;}
+  #hero   { padding:56px 24px 40px; }
+  .section{ padding:44px 24px; }
+  #footer { padding:28px 24px; flex-direction:column; align-items:flex-start; gap:16px; }
+  .footer-meta{ text-align:left; }
 
-  /* Hero title scales smoothly from tablet down */
-  .hero-title{font-size:clamp(42px,8vw,80px);}
+  .hero-title   { font-size:clamp(40px,9vw,72px); }
+  .hero-subtitle{ font-size:15px; margin-bottom:28px; }
+  .hero-stats   { grid-template-columns:1fr 1fr; gap:14px; }
+  .hero-meta    { flex-wrap:wrap; gap:14px; }
+  .hero-meta-item{ flex:0 0 calc(50% - 7px); }
+  .stat-value   { font-size:22px; }
 
-  .chapter-num{font-size:44px;}
-  .section-title{font-size:24px;}
-  .section-intro{font-size:15px;}
+  .chapter-num  { font-size:40px; }
+  .section-title{ font-size:22px; }
+  .section-intro{ font-size:14px; line-height:1.75; }
 
-  .hero-subtitle{font-size:15px;margin-bottom:32px;}
-  .hero-meta{flex-wrap:wrap;gap:16px;}
-  .hero-meta-item{flex:0 0 calc(50% - 8px);}
+  body .content-grid.three{ grid-template-columns:1fr; }
+  .forecast-grid           { grid-template-columns:1fr; }
+  .chokepoint-grid         { grid-template-columns:1fr 1fr; }
+  .compare-grid            { grid-template-columns:repeat(2,1fr); }
 
-  .stat-value{font-size:24px;}
+  .crisis-banner { flex-direction:column; gap:10px; align-items:flex-start; }
+  .blockquote    { font-size:14px; padding:14px 16px; }
+  .visual-divider{ font-size:9px; letter-spacing:2px; }
+  .data-table    { min-width:420px; }
 
-  .content-grid.three{grid-template-columns:1fr;}
-  .forecast-grid{grid-template-columns:1fr;}
-  .chokepoint-grid{grid-template-columns:1fr 1fr;}
-
-  .compare-grid{grid-template-columns:repeat(2,1fr);}
-
-  .crisis-banner{flex-direction:column;gap:12px;align-items:flex-start;}
-  .blockquote{font-size:14px;padding:14px 18px;}
-  .visual-divider{font-size:9px;}
-
-  /* Tables need min-width so the card's overflow-x:auto kicks in */
-  .data-table{min-width:440px;}
-
-  /* Tone down letter-spacing on tablet to prevent text overflow */
-  .classified-stamp{letter-spacing:3px;}
-  .hero-eyebrow{letter-spacing:2px;}
-  .card-title{letter-spacing:2px;}
-
-  /* Footer brand: shrink so it doesn't overflow the stacked footer */
-  .footer-brand{font-size:12px;letter-spacing:2px;}
-
-  /* Flow nodes: clip any label that still bleeds out */
-  .flow-node{overflow:hidden;}
-  .flow-node-label{letter-spacing:0;}
+  .classified-stamp{ letter-spacing:2px; font-size:10px; }
+  .hero-eyebrow    { letter-spacing:2px; }
+  .card-title      { letter-spacing:2px; }
+  .footer-brand    { font-size:12px; letter-spacing:2px; }
+  .flow-node       { overflow:hidden; }
+  .flow-node-label { letter-spacing:0; }
 }
 
-/* ── Mobile (≤ 480px): phones ── */
+/* ── Mobile phones (≤ 480px) ───────────────────────────────────
+   Everything stacks vertically. Typography is readable at arm's
+   length. No element escapes its column.
+─────────────────────────────────────────────────────────────── */
 @media(max-width:480px){
-  #hero{padding:40px 16px 28px;}
-  .section{padding:36px 16px;}
-  #footer{padding:24px 16px;}
+  /* ── Spacing ── */
+  #hero   { padding:36px 14px 28px; min-height:auto; }
+  .section{ padding:32px 14px; }
+  #footer { padding:20px 14px; }
 
-  /* Hero title: viewport-relative so it never clips on small phones */
-  .hero-title{font-size:clamp(36px,10.5vw,50px);}
+  /* ── All grids → single column (body prefix beats all base rules) ── */
+  body .content-grid,
+  body .content-grid.wide,
+  body .content-grid.full,
+  body .content-grid.three,
+  body .two-col { grid-template-columns:1fr; gap:14px; }
 
-  .hero-stats{grid-template-columns:1fr;}
-  .hero-meta{flex-direction:column;gap:10px;}
-  .hero-meta-item{flex:unset;}
-  .hero-subtitle{font-size:14px;}
+  body .chokepoint-grid { grid-template-columns:1fr 1fr; gap:10px; }
+  body .compare-grid    { grid-template-columns:1fr; }
+  body .win-lose-grid   { grid-template-columns:1fr; gap:10px; }
+  body .forecast-grid   { grid-template-columns:1fr; gap:12px; }
 
-  .chapter-num{font-size:28px;}
-  .section-header{gap:10px;margin-bottom:28px;}
-  .section-title{font-size:18px;}
-  .section-intro{font-size:13px;}
-  .section-divider{margin:10px 0;}
+  /* ── Hero ── */
+  .hero-title     { font-size:clamp(32px,11vw,46px); letter-spacing:-0.5px; }
+  .hero-subtitle  { font-size:13px; margin-bottom:20px; line-height:1.7; }
+  .classified-stamp{ font-size:9px; letter-spacing:1px; padding:3px 8px; margin-bottom:16px; }
+  .hero-eyebrow   { font-size:10px; letter-spacing:0; }
+  .hero-stats     { grid-template-columns:1fr 1fr; gap:8px; margin-bottom:24px; }
+  .hero-meta      { flex-direction:column; gap:8px; }
+  .hero-meta-item { flex:unset; width:100%; }
+  .stat-box       { padding:12px; }
+  .stat-value     { font-size:18px; }
+  .stat-label     { font-size:9px; letter-spacing:1px; }
+  .stat-unit      { font-size:10px; }
 
-  .stat-value{font-size:20px;}
-  .stat-box{padding:14px;}
+  /* ── Section structure ── */
+  .chapter-num    { font-size:24px; }
+  .section-header { gap:10px; margin-bottom:22px; align-items:flex-start; }
+  .section-title  { font-size:16px; line-height:1.25; }
+  .section-era    { font-size:10px; letter-spacing:1px; }
+  .section-intro  { font-size:12px; line-height:1.7; }
+  .section-divider{ margin:8px 0; }
 
-  .chokepoint-grid{grid-template-columns:1fr;}
-  .compare-grid{grid-template-columns:1fr;}
-  .win-lose-grid{grid-template-columns:1fr;}
-  .forecast-grid{grid-template-columns:1fr;}
+  /* ── Cards ── */
+  .card           { padding:14px; }
+  .card-title     { font-size:11px; letter-spacing:1px; }
 
-  /* Letter-spacing: cut right down so long strings don't overflow phones */
-  .classified-stamp{letter-spacing:1px;font-size:9px;}
-  .hero-eyebrow{letter-spacing:1px;font-size:10px;}
-  .stat-label{letter-spacing:1px;}
-  .card-title{letter-spacing:1px;}
-  .section-era{letter-spacing:1px;}
-  .intel-label{letter-spacing:2px;}
-  .visual-divider{letter-spacing:2px;}
-  .np-subtitle{letter-spacing:2px;}
-  .data-table th{letter-spacing:1px;}
-  .choke-name{letter-spacing:2px;}
-  .chart-label{letter-spacing:2px;}
+  /* ── Charts ── */
+  .chart-wrap           { padding:14px; margin-bottom:14px; }
+  .chart-wrap canvas    { max-height:180px; max-width:100%; }
+  .chart-label          { font-size:9px; letter-spacing:1px; margin-bottom:10px; }
 
-  /* Tables: set a minimum so the card's overflow-x:auto triggers scrolling */
-  .data-table{min-width:440px;}
+  /* ── Tables (horizontal scroll inside .card) ── */
+  .data-table      { min-width:360px; }
+  .data-table th   { font-size:9px; letter-spacing:1px; padding:7px 8px; }
+  .data-table td   { padding:7px 8px; font-size:11px; }
 
-  /* Metric rows: let long values like "$30 (extreme backwardation)" wrap */
-  .metric-row{flex-wrap:wrap;row-gap:2px;}
-  .metric-val{font-size:11px;}
+  /* ── Timeline ── */
+  .timeline        { padding-left:26px; }
+  .timeline::before{ left:7px; }
+  .timeline-dot    { left:-20px; width:8px; height:8px; top:3px; }
+  .timeline-year   { font-size:10px; letter-spacing:1px; }
+  .timeline-text   { font-size:11px; line-height:1.65; }
 
-  /* Flow nodes: tighter on phones */
-  .flow-node{padding:10px 12px;}
-  .flow-node-sub{font-size:9px;}
-  .flow-node-icon{font-size:18px;margin-bottom:4px;}
+  /* ── Typography ── */
+  .prose           { font-size:12px; line-height:1.85; }
+  .prose p         { margin-bottom:10px; }
+  .blockquote      { font-size:12px; padding:12px 14px; }
+  .highlight       { font-size:12px; padding:12px 14px; }
+  .intel-box       { padding:12px 14px; }
+  .intel-text      { font-size:11px; line-height:1.7; }
+  .intel-label     { font-size:9px; letter-spacing:2px; }
 
-  .topbar-brand{font-size:10px;letter-spacing:2px;}
-  .ntog-label{display:none;}
+  /* ── Metrics ── */
+  .metric-row  { flex-wrap:wrap; row-gap:2px; padding:8px 0; }
+  .metric-label{ font-size:11px; }
+  .metric-val  { font-size:11px; }
 
-  .np-header{padding:18px 18px 14px;}
-  .np-item{padding:0 18px;}
-  .np-group{padding:12px 18px 5px;}
-  .np-footer{padding:12px 18px;}
+  /* ── Flow diagram ── */
+  .flow            { padding:16px 0; }
+  .flow-node       { padding:10px 12px; min-width:90px; max-width:150px; overflow:hidden; }
+  .flow-node-label { font-size:9px; letter-spacing:0; }
+  .flow-node-sub   { font-size:9px; }
+  .flow-node-icon  { font-size:16px; margin-bottom:4px; }
 
-  .crisis-banner{padding:14px 16px;}
-  .crisis-title{font-size:13px;}
+  /* ── Misc components ── */
+  .visual-divider{ font-size:9px; letter-spacing:2px; margin:20px 0; }
 
-  .tick-item{padding:0 18px;font-size:10px;}
+  .crisis-banner { padding:12px 14px; gap:8px; }
+  .crisis-icon   { font-size:22px; }
+  .crisis-title  { font-size:12px; letter-spacing:2px; }
+  .crisis-sub    { font-size:10px; }
 
-  .blockquote{font-size:12px;padding:12px 14px;}
-  .prose{font-size:12px;line-height:1.8;}
-  .intel-text{font-size:11px;}
+  .prod-bar-row{ gap:8px; }
+  .prod-country{ width:auto; min-width:50px; font-size:10px; }
+  .prod-val    { width:auto; min-width:34px; font-size:11px; flex-shrink:1; }
 
-  .highlight{font-size:13px;padding:14px 16px;}
-  .intel-box{padding:16px 18px;}
+  .wl-title{ font-size:12px; letter-spacing:2px; }
+  .wl-item { font-size:11px; }
 
-  /* Charts: shorter max-height so stacked charts don't dominate on small phones */
-  .chart-wrap canvas{max-height:220px;}
-  /* Stacked chart/card spacing when content-grid collapses */
-  .chart-wrap{margin-bottom:16px;}
+  .choke-val { font-size:20px; }
+  .choke-name{ font-size:10px; letter-spacing:2px; }
+  .choke-sub { font-size:9px; }
 
-  /* Long text: allow break anywhere so nothing escapes the column */
-  .wl-item,.timeline-text,.intel-text,.prose p{word-break:break-word;overflow-wrap:break-word;}
+  .tick-item{ font-size:10px; padding:0 14px; }
 
-  /* Footer brand: minimum size on phones */
-  .footer-brand{font-size:10px;letter-spacing:1px;}
+  /* ── Navigation panel ── */
+  .topbar-brand  { font-size:10px; letter-spacing:2px; }
+  .ntog-label    { display:none; }
+  .ntog-ch-num   { font-size:9px; }
+  .np-header     { padding:16px 16px 12px; }
+  .np-item       { padding:0 16px; }
+  .np-group      { padding:10px 16px 4px; }
+  .np-footer     { padding:10px 16px; }
+  .np-subtitle   { letter-spacing:2px; }
 
-  /* Hero eyebrow: zero letter-spacing so the long string fits */
-  .hero-eyebrow{letter-spacing:0;}
+  /* ── Footer ── */
+  .footer-brand{ font-size:10px; letter-spacing:1px; }
+  .footer-meta { font-size:9px; }
 
-  /* Flow node labels: no extra letter-spacing on phones */
-  .flow-node-label{letter-spacing:0;font-size:9px;}
+  /* ── Word-wrap safety net ── */
+  .wl-item,.timeline-text,.intel-text,.prose p{
+    word-break:break-word; overflow-wrap:break-word;
+  }
+}
 
-  /* Prod-bar: auto widths so the row stays inside the card */
-  .prod-country{width:auto;min-width:55px;font-size:10px;}
-  .prod-val{width:auto;min-width:40px;flex-shrink:1;}
+/* ── Very narrow phones (≤ 375px) ── */
+@media(max-width:375px){
+  #hero   { padding:24px 12px 20px; }
+  .section{ padding:24px 12px; }
+  #footer { padding:16px 12px; }
+
+  .hero-title{ font-size:clamp(28px,12vw,40px); }
+
+  /* On the narrowest phones, stat boxes and chokepoints go single-column */
+  body .hero-stats     { grid-template-columns:1fr; }
+  body .chokepoint-grid{ grid-template-columns:1fr; }
 }
 
 /* ANIMATIONS */
